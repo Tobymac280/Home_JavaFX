@@ -61,4 +61,26 @@ public class Database {
 
         return accounts;
     } // end of getAccounts()
+
+    /** Returns QuizItems object -- retrieved from the database */
+    public QuizItems getQuizItems(){
+        QuizItems quizItems = new QuizItems();
+        ArrayList<QuizItem> quizItemArrayList = new ArrayList<>();
+
+        try(Statement statement = connection.createStatement()){
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM flashcard");
+            while(resultSet.next()){
+                String question, answer;
+                question = resultSet.getString("question");
+                answer = resultSet.getString("answer");
+                QuizItem quizItem = new QuizItem(question, answer);
+                quizItemArrayList.add(quizItem);
+            }
+        }catch (SQLException exc){
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, exc);
+        }
+        // add the items to the QuizItems object
+        quizItems.setQuizItems(quizItemArrayList);
+        return quizItems;
+    }
 }

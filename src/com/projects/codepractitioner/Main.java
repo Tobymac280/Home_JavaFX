@@ -69,7 +69,7 @@ public class Main extends Application {
                         // open window for displaying settings
                         errorLabel.setStyle("-fx-text-fill: green");
                         errorLabel.setText("Account logged in.");
-                        UserBoxes.displaySettings(checkerAccount);
+                        UserBoxes.displaySettings(checkerAccount, database);
                         // after this method returns, update account that was possibly changed
                     } else{ // no password found
                         // display an error message
