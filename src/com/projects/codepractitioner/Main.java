@@ -1,11 +1,19 @@
 package com.projects.codepractitioner;
 
+/*
+ * Description: Main method. Connects all functionality.
+ * Created: 12/03/2018
+ * Author: Nik
+ */
+
 import com.projects.codepractitioner.POJO.Account;
 import com.projects.codepractitioner.POJO.AccountList;
 import com.projects.codepractitioner.POJO.Database;
 import com.projects.codepractitioner.Windows.PopupBox;
 import com.projects.codepractitioner.Windows.UserBoxes;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,8 +28,6 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 public class Main extends Application {
-    // Database connection
-    private static Database database;
     // Change these values to change the window's values
     private static String windowTitle = "Login";
     private final double WIDTH = 600; // sets the window's width
@@ -31,9 +37,9 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        database = new Database();
+        Database.createConnection(); // create the connection
         accountsList = new AccountList();
-        accountsList.setAccounts(database.getAccounts());
+        accountsList.setAccounts(Database.getAccounts());
         launch(args);
     }
 
@@ -54,6 +60,7 @@ public class Main extends Application {
         passwordField.setPromptText("Enter password");
         // Submit button
         Button login = new Button("Login");
+        Button register = new Button("Register");
         // Error label
         Label errorLabel = new Label("");
 
@@ -69,7 +76,7 @@ public class Main extends Application {
                         // open window for displaying settings
                         errorLabel.setStyle("-fx-text-fill: green");
                         errorLabel.setText("Account logged in.");
-                        UserBoxes.displaySettings(checkerAccount, database);
+                        UserBoxes.displaySettings(checkerAccount);
                         // after this method returns, update account that was possibly changed
                     } else{ // no password found
                         // display an error message
@@ -96,6 +103,17 @@ public class Main extends Application {
             information.add("This program allows many users the ability to track tasks and take fun \"Daily Quizzes\".");
             information.add("Nik Fernandez. He created this in December of 2018.");
             PopupBox.display("About", labels, information); // calls the method to show the window
+        });
+        register.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                // Open the window
+                Account newAccount = UserBoxes.createAccount();
+                // Add newAccount to the list, as long as it was properly created
+                if (newAccount != null){
+                    accountsList.addAccount(newAccount);
+                }
+            }
         });
 
         // Layout -- the place to put all of the objects

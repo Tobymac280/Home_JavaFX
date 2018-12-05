@@ -7,13 +7,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Database {
-    private Connection connection;
+    private static Connection connection;
 
-    public Database(){
-        createConnection(); // creates the connection at the creation of the object.
-    }
-
-    private void createConnection(){
+    public static void createConnection(){
         String username, password;
 
         System.out.println("Please enter the following credentials to login.");
@@ -37,7 +33,7 @@ public class Database {
     }
 
     /** Returns an ArrayList of Accounts -- retrieved from the database */
-    public ArrayList<Account> getAccounts(){
+    public static ArrayList<Account> getAccounts(){
         ArrayList<Account> accounts = new ArrayList<>();
 
         try(Statement statement = connection.createStatement()){
@@ -63,7 +59,7 @@ public class Database {
     } // end of getAccounts()
 
     /** Returns QuizItems object -- retrieved from the database */
-    public QuizItems getQuizItems(){
+    public static QuizItems getQuizItems(){
         QuizItems quizItems = new QuizItems();
         ArrayList<QuizItem> quizItemArrayList = new ArrayList<>();
 

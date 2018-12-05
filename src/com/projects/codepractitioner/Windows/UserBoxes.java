@@ -2,14 +2,11 @@ package com.projects.codepractitioner.Windows;
 
 /*
  * Description: This class contains static methods for displaying windows for when a user is logged in
- * Created: 02/18/2018
+ * Created: 12/03/2018
  * Author: Nik
  */
 
-import com.projects.codepractitioner.POJO.Account;
-import com.projects.codepractitioner.POJO.Database;
-import com.projects.codepractitioner.POJO.QuizItem;
-import com.projects.codepractitioner.POJO.QuizItems;
+import com.projects.codepractitioner.POJO.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -25,16 +22,17 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.xml.soap.Text;
+
 public class UserBoxes {
     /** Displays a settings window for an account that is passed in */
-    public static void displaySettings(Account account, Database database){
+    public static void displaySettings(Account account){
         Stage window = new Stage();
 
         /* Components */
         // TOP
         Button logoutButton = new Button("Logout"); // logs out the user
         Button quizButton = new Button("Take quiz");
-        Button inventory = new Button("Inventory"); // opens the inventory menu
         // CENTER
         TextArea displayArea = new TextArea();
         displayArea.setEditable(false); // don't let the user edit the text area
@@ -43,24 +41,20 @@ public class UserBoxes {
                 "First name: " + account.getFirstName() + "\n" +
                 "Last name: " + account.getLastName() + "\n" +
                 "Age: " + account.getAge() + "\n");
-        // LEFT -- ONLY shows for admins
-        Label titleLabel = new Label("Administrator Options:");
-        Button addAccountButton = new Button("Create a new account");
-        Button deleteAccount = new Button("Delete Account");
 
         /* Events */
         logoutButton.setOnAction(event -> window.close()); // closes this window
         quizButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                UserBoxes.dailyQuiz(database);
+                UserBoxes.dailyQuiz();
             }
         });
 
         /* Layouts */
         // TOP layout
-        HBox topLayout = new HBox(150);
-        topLayout.getChildren().addAll(logoutButton, quizButton, inventory);
+        HBox topLayout = new HBox(20);
+        topLayout.getChildren().addAll(logoutButton, quizButton);
         topLayout.getStyleClass().add("styled-box");
         topLayout.setAlignment(Pos.CENTER);
         // CENTER layout
@@ -97,16 +91,15 @@ public class UserBoxes {
         window.showAndWait();
     }
 
-    public static void dailyQuiz(Database database){
+    public static void dailyQuiz(){
         Stage window = new Stage();
-        QuizItems quizItems = database.getQuizItems();
-        QuizItem quizItem = quizItems.getQuizItems().get(0); // sets it equal to the first quiz item
-        String question = quizItem.getQuestion();
-        String answer = quizItem.getAnswer();
+        // load everything in for the quiz
+        QuizItems quizItems = Database.getQuizItems();
+        Quiz theQuiz = new Quiz(quizItems);
 
         /* Components */
         TextField question_TextField = new TextField();
-        question_TextField.setText(question);
+        question_TextField.setText(theQuiz.getQuestion());
         question_TextField.setEditable(false);
         Button true_Button = new Button("True");
         Button false_Button = new Button("False");
@@ -117,21 +110,29 @@ public class UserBoxes {
         true_Button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(answer.toLowerCase().equals("true")){
-                    notificationLabel.setText("Correct: " + 1);
-                }else{
-                    notificationLabel.setText("Incorrect: " + 1);
+                String theAnswer = theQuiz.getAnswer().toLowerCase();
+                if(theAnswer.equals("true")){
+                    theQuiz.addCorrect();
+                }else if(theAnswer.equals("false")){
+                    theQuiz.addIncorrect();
                 }
+                // print out the results to the user
+                notificationLabel.setText("Correct: " + theQuiz.getNumCorrect() + ", Incorrect: " + theQuiz.getNumIncorrect());
+                question_TextField.setText(theQuiz.getQuestion());
             }
         });
         false_Button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(answer.toLowerCase().equals("false")){
-                    notificationLabel.setText("Correct: " + 1);
-                }else{
-                    notificationLabel.setText("Incorrect: " + 1);
+                String theAnswer = theQuiz.getAnswer().toLowerCase();
+                if(theAnswer.equals("false")){
+                    theQuiz.addCorrect();
+                }else if(theAnswer.equals("true")){
+                    theQuiz.addIncorrect();
                 }
+                // print out the results to the user
+                notificationLabel.setText("Correct: " + theQuiz.getNumCorrect() + ", Incorrect: " + theQuiz.getNumIncorrect());
+                question_TextField.setText(theQuiz.getQuestion());
             }
         });
         cancel_Button.setOnAction(event -> window.close());
@@ -167,5 +168,74 @@ public class UserBoxes {
         window.setScene(mainScene); // sets the scene
         window.initModality(Modality.APPLICATION_MODAL);
         window.showAndWait();
+    }
+
+    /** Creates a new account and returns an Account object */
+    public static Account createAccount(){
+        Account newAccount = null;
+        Stage window = new Stage();
+
+        /* Components */
+        Label userName_Label = new Label("User name: ");
+        TextField userName_TextField = new TextField();
+        Label password_Label = new Label("Password: ");
+        TextField password_TextField = new TextField();
+        Label re_enter_password_Label = new Label("Re-enter password: ");
+        TextField re_enter_password_TextField = new TextField();
+        Label firstName_Label = new Label("First name: ");
+        TextField firstName_TextField = new TextField();
+        Label lastName_Label = new Label("Last name: ");
+        TextField lastName_TextField = new TextField();
+        Button submit_Button = new Button("Submit");
+        Button cancel_Button = new Button("Cancel");
+
+        /* Events */
+        submit_Button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+            }
+        });
+        cancel_Button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                // make all fields empty
+                userName_TextField.setText("");
+                password_TextField.setText("");
+                re_enter_password_TextField.setText("");
+                firstName_TextField.setText("");
+                lastName_TextField.setText("");
+                // close this window
+                window.close();
+            }
+        });
+        /* Layouts */
+        HBox firstRow = new HBox();
+        firstRow.getChildren().addAll(userName_Label, userName_TextField);
+        HBox secondRow = new HBox();
+        secondRow.getChildren().addAll(password_Label, password_TextField);
+        HBox thirdRow = new HBox();
+        thirdRow.getChildren().addAll(re_enter_password_Label, re_enter_password_TextField);
+        HBox fourthRow = new HBox();
+        fourthRow.getChildren().addAll(firstName_Label, firstName_TextField);
+        HBox fifthRow = new HBox();
+        fifthRow.getChildren().addAll(lastName_Label, lastName_TextField);
+        HBox sixthRow = new HBox();
+        sixthRow.getChildren().addAll(submit_Button, cancel_Button);
+
+        VBox mainLayout = new VBox();
+        // add all of the layout to the main layout
+        mainLayout.getChildren().addAll(firstRow, secondRow, thirdRow, fourthRow, fifthRow, sixthRow);
+
+        /* Scene */
+        Scene mainScene = new Scene(mainLayout, 600, 400);
+
+        /* Window options */
+        window.setTitle("Register new account");
+        window.setScene(mainScene); // sets the scene
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.showAndWait();
+
+        return newAccount;
     }
 }
