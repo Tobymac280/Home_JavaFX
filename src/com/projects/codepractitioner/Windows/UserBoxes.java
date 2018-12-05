@@ -12,19 +12,17 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.xml.soap.Text;
 
 public class UserBoxes {
+    private static final String stylesheet = "/com/projects/codepractitioner/Resources/master.css";
+
     /** Displays a settings window for an account that is passed in */
     public static void displaySettings(Account account){
         Stage window = new Stage();
@@ -82,7 +80,7 @@ public class UserBoxes {
 
         // Scene
         Scene mainScene = new Scene(mainLayout, 600, 400);
-        mainScene.getStylesheets().add("/com/projects/codepractitioner/Resources/master.css");
+        mainScene.getStylesheets().add(stylesheet);
 
         // Window options
         window.setTitle("Settings for " + account.getUsername());
@@ -162,6 +160,7 @@ public class UserBoxes {
 
         /* Scene */
         Scene mainScene = new Scene(mainLayout, 600, 400);
+        mainScene.getStylesheets().add(stylesheet);
 
         /* Window options */
         window.setTitle("Daily Quiz");
@@ -179,21 +178,36 @@ public class UserBoxes {
         Label userName_Label = new Label("User name: ");
         TextField userName_TextField = new TextField();
         Label password_Label = new Label("Password: ");
-        TextField password_TextField = new TextField();
+        PasswordField password_TextField = new PasswordField();
         Label re_enter_password_Label = new Label("Re-enter password: ");
-        TextField re_enter_password_TextField = new TextField();
+        PasswordField re_enter_password_TextField = new PasswordField();
         Label firstName_Label = new Label("First name: ");
         TextField firstName_TextField = new TextField();
         Label lastName_Label = new Label("Last name: ");
         TextField lastName_TextField = new TextField();
+        Label age_Label = new Label("Age: ");
+        TextField age_TextField = new TextField();
         Button submit_Button = new Button("Submit");
         Button cancel_Button = new Button("Cancel");
+        Label notification_Label = new Label("Please enter information into fields");
 
         /* Events */
         submit_Button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
+                if(userName_TextField.getText().trim().length() >= 5 && password_TextField.getText().trim().length() >= 5
+                && re_enter_password_TextField.getText().trim().length() >= 5 && firstName_TextField.getText().trim().length() > 0 && lastName_TextField.getText().trim().length() > 0 && age_TextField.getText().trim().length() > 0){
+                    if(password_TextField.getText().equals(re_enter_password_TextField.getText())){ // are the passwords the same?
+//                        int age = Integer.parseInt(age_TextField.getText());
+//                        newAccount = new Account(userName_TextField.getText(), password_TextField.getText(), firstName_TextField.getText(), lastName_TextField.getText(), age);
+                        notification_Label.setText("Account can be created!");
+                    }
+                    else{
+                        notification_Label.setText("Passwords don't math.");
+                    }
+                }else{
+                    notification_Label.setText("Fields must all have at least 5 characters, except for age.");
+                }
             }
         });
         cancel_Button.setOnAction(new EventHandler<ActionEvent>() {
@@ -212,23 +226,34 @@ public class UserBoxes {
         /* Layouts */
         HBox firstRow = new HBox();
         firstRow.getChildren().addAll(userName_Label, userName_TextField);
+        firstRow.setAlignment(Pos.CENTER);
         HBox secondRow = new HBox();
         secondRow.getChildren().addAll(password_Label, password_TextField);
+        secondRow.setAlignment(Pos.CENTER);
         HBox thirdRow = new HBox();
         thirdRow.getChildren().addAll(re_enter_password_Label, re_enter_password_TextField);
+        thirdRow.setAlignment(Pos.CENTER);
         HBox fourthRow = new HBox();
         fourthRow.getChildren().addAll(firstName_Label, firstName_TextField);
+        fourthRow.setAlignment(Pos.CENTER);
         HBox fifthRow = new HBox();
         fifthRow.getChildren().addAll(lastName_Label, lastName_TextField);
+        fifthRow.setAlignment(Pos.CENTER);
         HBox sixthRow = new HBox();
-        sixthRow.getChildren().addAll(submit_Button, cancel_Button);
+        sixthRow.getChildren().addAll(age_Label, age_TextField);
+        sixthRow.setAlignment(Pos.CENTER);
+        HBox seventhRow = new HBox();
+        seventhRow.getChildren().addAll(submit_Button, cancel_Button);
+        seventhRow.setAlignment(Pos.CENTER);
 
-        VBox mainLayout = new VBox();
+        VBox mainLayout = new VBox(10);
         // add all of the layout to the main layout
-        mainLayout.getChildren().addAll(firstRow, secondRow, thirdRow, fourthRow, fifthRow, sixthRow);
+        mainLayout.getChildren().addAll(firstRow, secondRow, thirdRow, fourthRow, fifthRow, sixthRow, seventhRow, notification_Label);
+        mainLayout.setAlignment(Pos.CENTER);
 
         /* Scene */
         Scene mainScene = new Scene(mainLayout, 600, 400);
+        mainScene.getStylesheets().add(stylesheet);
 
         /* Window options */
         window.setTitle("Register new account");

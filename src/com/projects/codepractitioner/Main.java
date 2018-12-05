@@ -132,8 +132,9 @@ public class Main extends Application {
         GridPane.setConstraints(passwordLabel, 0, 1); // second row, first column
         GridPane.setConstraints(passwordField, 1, 1); // second row, second column
         GridPane.setConstraints(login, 0, 2); // third row, first column
+        GridPane.setConstraints(register, 1, 2); // third row, second column
         GridPane.setConstraints(errorLabel, 0, 3);
-        centerLayout.getChildren().setAll(usernameField, usernameLabel, passwordField, passwordLabel, login, errorLabel); // adds all of the objects to the GridPane
+        centerLayout.getChildren().setAll(usernameField, usernameLabel, passwordField, passwordLabel, login, register, errorLabel); // adds all of the objects to the GridPane
         // Add the layouts to the main BorderPane layout
         layout.setTop(topLayout); // adds the TOP layout to the BorderPane
         layout.setCenter(centerLayout); // adds the CENTER layout to the BorderPane
