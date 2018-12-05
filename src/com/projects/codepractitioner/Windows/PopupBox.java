@@ -36,6 +36,7 @@ public class PopupBox {
 
             // TextArea object for display the current description for the current item
             TextArea descriptionArea = new TextArea("");
+            descriptionArea.setEditable(false);
 
             // Events
             // listener for when the user clicks on the items of the listView, since clicking doesn't trigger an event
