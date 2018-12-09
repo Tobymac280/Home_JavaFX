@@ -59,14 +59,15 @@ public class Main extends Application {
         PasswordField passwordField = new PasswordField();
         passwordField.setPromptText("Enter password");
         // Submit button
-        Button login = new Button("Login");
-        Button register = new Button("Register");
+        Button login_Button = new Button("Login");
+        Button register_Button = new Button("Register");
+        Button logout_Button = new Button("Logout");
         // Error label
         Label errorLabel = new Label("");
 
         // Events -- the place to add new functionality when the user clicks an object
         stage.setOnCloseRequest(event -> stage.close()); // tells the window to close completely when you hit the X (quit) button
-        login.setOnAction(event -> {
+        login_Button.setOnAction(event -> {
             // Check what's in the username field and password field
             if( !(usernameField.getText().equals("")) || !(passwordField.getText().equals("")) ){ // if the fields are not empty
                 Account checkerAccount = accountsList.findByUsername(usernameField.getText());
@@ -104,16 +105,17 @@ public class Main extends Application {
             information.add("Nik Fernandez. He created this in December of 2018.");
             PopupBox.display("About", labels, information); // calls the method to show the window
         });
-        register.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                // Open the window
-                Account newAccount = UserBoxes.createAccount();
-                // Add newAccount to the list, as long as it was properly created
-                if (newAccount != null){
-                    accountsList.addAccount(newAccount);
-                }
+        register_Button.setOnAction(event -> {
+            // Open the window
+            Account newAccount = UserBoxes.createAccount();
+            // Add newAccount to the list, as long as it was properly created
+            if (newAccount != null){
+                accountsList.addAccount(newAccount);
             }
+        });
+
+        logout_Button.setOnAction(event -> {
+            System.exit(0);
         });
 
         // Layout -- the place to put all of the objects
@@ -131,10 +133,11 @@ public class Main extends Application {
         GridPane.setConstraints(usernameField, 1, 0); // first row, second column
         GridPane.setConstraints(passwordLabel, 0, 1); // second row, first column
         GridPane.setConstraints(passwordField, 1, 1); // second row, second column
-        GridPane.setConstraints(login, 0, 2); // third row, first column
-        GridPane.setConstraints(register, 1, 2); // third row, second column
+        GridPane.setConstraints(login_Button, 0, 2); // third row, first column
+        GridPane.setConstraints(register_Button, 1, 2); // third row, second column
+        GridPane.setConstraints(logout_Button, 2, 2); // third row, second column
         GridPane.setConstraints(errorLabel, 0, 3);
-        centerLayout.getChildren().setAll(usernameField, usernameLabel, passwordField, passwordLabel, login, register, errorLabel); // adds all of the objects to the GridPane
+        centerLayout.getChildren().setAll(usernameField, usernameLabel, passwordField, passwordLabel, login_Button, register_Button, logout_Button, errorLabel); // adds all of the objects to the GridPane
         // Add the layouts to the main BorderPane layout
         layout.setTop(topLayout); // adds the TOP layout to the BorderPane
         layout.setCenter(centerLayout); // adds the CENTER layout to the BorderPane

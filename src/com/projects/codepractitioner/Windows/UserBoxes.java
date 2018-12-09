@@ -206,7 +206,7 @@ public class UserBoxes {
                         notification_Label.setText("Passwords don't math.");
                     }
                 }else{
-                    notification_Label.setText("Fields must all have at least 5 characters, except for age.");
+                    notification_Label.setText("Fields must all have at least 5 characters, except for age, first name, and last name.");
                 }
             }
         });
