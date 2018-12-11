@@ -13,14 +13,16 @@ import java.util.ArrayList;
 public class PopupBox {
     private static String windowTitle;
     private static Stage window;
-    /** This method opens a new window that allows a user to see a bunch of populated information on the screen.
-     * Pass in a a list of labels and descriptions (parallel arrays), to have them populate on the screen */
-    public static void display(String title, ArrayList<String> labels, ArrayList<String> descriptions){
+
+    /**
+     * This method opens a new window that allows a user to see a bunch of populated information on the screen.
+     * Pass in a a list of labels and descriptions (parallel arrays), to have them populate on the screen
+     */
+    public static void display(String title, ArrayList<String> labels, ArrayList<String> descriptions) {
         // check if the labels and descriptions list have the same amount of items to avoid problems
-        if(labels.size() != descriptions.size()){
+        if (labels.size() != descriptions.size()) {
             System.out.println("ArrayLists MUST have the same amount of objects for both. Cannot open window!");
-        }
-        else{ // show and populate the screen
+        } else { // show and populate the screen
             windowTitle = title; // Change this to change the title of the window
             // Create the new window
             window = new Stage();
@@ -30,7 +32,7 @@ public class PopupBox {
             /* Add labels to the list view */
             ListView<String> labelListView = new ListView<>();
             // run a for-each loop to populate the listView
-            for(String currentString : labels){ // adds the current string to the listView
+            for (String currentString : labels) { // adds the current string to the listView
                 labelListView.getItems().add(currentString); // adds the current string into the listView
             }
 

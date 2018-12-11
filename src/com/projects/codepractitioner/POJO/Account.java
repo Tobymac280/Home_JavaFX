@@ -7,7 +7,7 @@ public class Account {
     private String lastName;
     private int age;
 
-    public Account(String username, String password, String firstName, String lastName, int age){
+    public Account(String username, String password, String firstName, String lastName, int age) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;

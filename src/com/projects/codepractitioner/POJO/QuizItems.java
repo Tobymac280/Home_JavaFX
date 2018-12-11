@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class QuizItems {
     private ArrayList<QuizItem> quizItems;
 
-    public QuizItems(){
+    public QuizItems() {
         quizItems = new ArrayList<>();
     }
 
@@ -13,7 +13,7 @@ public class QuizItems {
         return quizItems;
     }
 
-    public void setQuizItems(ArrayList<QuizItem> items){
+    public void setQuizItems(ArrayList<QuizItem> items) {
         quizItems = items;
     }
 }

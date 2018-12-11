@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 public class Database {
     private static Connection connection;
 
-    public static void createConnection(){
+    public static void createConnection() {
         String username, password;
 
         System.out.println("Please enter the following credentials to login.");
@@ -19,26 +19,28 @@ public class Database {
         System.out.print("Enter password: ");
         password = scanner.nextLine();
 
-        try{
+        try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", username, password);
             // Database how now been successfully connected.
             System.err.println("Database was successfully connected.");
 
-        }catch (ClassNotFoundException e){
+        } catch (ClassNotFoundException e) {
             System.err.println("Class not found.");
-        }catch(SQLException e){
+        } catch (SQLException e) {
             System.err.println("SQL exception thrown.");
         }
     }
 
-    /** Returns an ArrayList of Accounts -- retrieved from the database */
-    public static ArrayList<Account> getAccounts(){
+    /**
+     * Returns an ArrayList of Accounts -- retrieved from the database
+     */
+    public static ArrayList<Account> getAccounts() {
         ArrayList<Account> accounts = new ArrayList<>();
 
-        try(Statement statement = connection.createStatement()){
+        try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM LOGIN_ACCOUNTS");
-            while(resultSet.next()){ // as long as the next row is not null
+            while (resultSet.next()) { // as long as the next row is not null
                 String username, password, firstName, lastName;
                 int age;
                 username = resultSet.getString("username");
@@ -51,28 +53,30 @@ public class Database {
                 // add the account to the list
                 accounts.add(newAccount);
             }
-        }catch (SQLException exc){
+        } catch (SQLException exc) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, exc);
         }
 
         return accounts;
     } // end of getAccounts()
 
-    /** Returns QuizItems object -- retrieved from the database */
-    public static QuizItems getQuizItems(){
+    /**
+     * Returns QuizItems object -- retrieved from the database
+     */
+    public static QuizItems getQuizItems() {
         QuizItems quizItems = new QuizItems();
         ArrayList<QuizItem> quizItemArrayList = new ArrayList<>();
 
-        try(Statement statement = connection.createStatement()){
+        try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM flashcard");
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 String question, answer;
                 question = resultSet.getString("question");
                 answer = resultSet.getString("answer");
                 QuizItem quizItem = new QuizItem(question, answer);
                 quizItemArrayList.add(quizItem);
             }
-        }catch (SQLException exc){
+        } catch (SQLException exc) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, exc);
         }
         // add the items to the QuizItems object

@@ -23,24 +23,25 @@ public class Quiz {
         return numIncorrect;
     }
 
-    public void addCorrect(){
+    public void addCorrect() {
         numCorrect++;
     }
 
-    public void addIncorrect(){
+    public void addIncorrect() {
         numIncorrect++;
     }
 
-    public String getQuestion(){
-        if(currentQuestion >= quizItems.getQuizItems().size()){
+    public String getQuestion() {
+        if (currentQuestion >= quizItems.getQuizItems().size()) {
             return "no more questions.";
         }
         String question = quizItems.getQuizItems().get(currentQuestion).getQuestion();
         currentQuestion++;
         return question;
     }
-    public String getAnswer(){
-        if(currentAnswer >= quizItems.getQuizItems().size()){
+
+    public String getAnswer() {
+        if (currentAnswer >= quizItems.getQuizItems().size()) {
             return "no more answers.";
         }
         String answer = quizItems.getQuizItems().get(currentAnswer).getAnswer();

@@ -23,8 +23,10 @@ import javafx.stage.Stage;
 public class UserBoxes {
     private static final String stylesheet = "/com/projects/codepractitioner/Resources/master.css";
 
-    /** Displays a settings window for an account that is passed in */
-    public static void displaySettings(Account account){
+    /**
+     * Displays a settings window for an account that is passed in
+     */
+    public static void displaySettings(Account account) {
         Stage window = new Stage();
 
         /* Components */
@@ -89,7 +91,10 @@ public class UserBoxes {
         window.showAndWait();
     }
 
-    public static void dailyQuiz(){
+    /**
+     * A window for providing a daily quiz for users.
+     */
+    public static void dailyQuiz() {
         Stage window = new Stage();
         // load everything in for the quiz
         QuizItems quizItems = Database.getQuizItems();
@@ -109,9 +114,9 @@ public class UserBoxes {
             @Override
             public void handle(ActionEvent event) {
                 String theAnswer = theQuiz.getAnswer().toLowerCase();
-                if(theAnswer.equals("true")){
+                if (theAnswer.equals("true")) {
                     theQuiz.addCorrect();
-                }else if(theAnswer.equals("false")){
+                } else if (theAnswer.equals("false")) {
                     theQuiz.addIncorrect();
                 }
                 // print out the results to the user
@@ -123,9 +128,9 @@ public class UserBoxes {
             @Override
             public void handle(ActionEvent event) {
                 String theAnswer = theQuiz.getAnswer().toLowerCase();
-                if(theAnswer.equals("false")){
+                if (theAnswer.equals("false")) {
                     theQuiz.addCorrect();
-                }else if(theAnswer.equals("true")){
+                } else if (theAnswer.equals("true")) {
                     theQuiz.addIncorrect();
                 }
                 // print out the results to the user
@@ -169,8 +174,10 @@ public class UserBoxes {
         window.showAndWait();
     }
 
-    /** Creates a new account and returns an Account object */
-    public static Account createAccount(){
+    /**
+     * Creates a new account and returns an Account object
+     */
+    public static Account createAccount() {
         Account newAccount = null;
         Stage window = new Stage();
 
@@ -195,17 +202,16 @@ public class UserBoxes {
         submit_Button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(userName_TextField.getText().trim().length() >= 5 && password_TextField.getText().trim().length() >= 5
-                && re_enter_password_TextField.getText().trim().length() >= 5 && firstName_TextField.getText().trim().length() > 0 && lastName_TextField.getText().trim().length() > 0 && age_TextField.getText().trim().length() > 0){
-                    if(password_TextField.getText().equals(re_enter_password_TextField.getText())){ // are the passwords the same?
+                if (userName_TextField.getText().trim().length() >= 5 && password_TextField.getText().trim().length() >= 5
+                        && re_enter_password_TextField.getText().trim().length() >= 5 && firstName_TextField.getText().trim().length() > 0 && lastName_TextField.getText().trim().length() > 0 && age_TextField.getText().trim().length() > 0) {
+                    if (password_TextField.getText().equals(re_enter_password_TextField.getText())) { // are the passwords the same?
 //                        int age = Integer.parseInt(age_TextField.getText());
 //                        newAccount = new Account(userName_TextField.getText(), password_TextField.getText(), firstName_TextField.getText(), lastName_TextField.getText(), age);
                         notification_Label.setText("Account can be created!");
-                    }
-                    else{
+                    } else {
                         notification_Label.setText("Passwords don't math.");
                     }
-                }else{
+                } else {
                     notification_Label.setText("Fields must all have at least 5 characters, except for age, first name, and last name.");
                 }
             }

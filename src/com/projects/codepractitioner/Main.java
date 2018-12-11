@@ -12,8 +12,6 @@ import com.projects.codepractitioner.POJO.Database;
 import com.projects.codepractitioner.Windows.PopupBox;
 import com.projects.codepractitioner.Windows.UserBoxes;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -35,7 +33,6 @@ public class Main extends Application {
     // Create a collection of accounts
     private static AccountList accountsList; // this will allow easier use of accounts when adding and deleting
 
-
     public static void main(String[] args) {
         Database.createConnection(); // create the connection
         accountsList = new AccountList();
@@ -44,7 +41,7 @@ public class Main extends Application {
     }
 
     /* Author: Nik */
-    public void start(Stage stage){
+    public void start(Stage stage) {
         // Objects for the scene
         // TOP objects
         Button about = new Button("About"); // about button
@@ -69,27 +66,27 @@ public class Main extends Application {
         stage.setOnCloseRequest(event -> stage.close()); // tells the window to close completely when you hit the X (quit) button
         login_Button.setOnAction(event -> {
             // Check what's in the username field and password field
-            if( !(usernameField.getText().equals("")) || !(passwordField.getText().equals("")) ){ // if the fields are not empty
+            if (!(usernameField.getText().equals("")) || !(passwordField.getText().equals(""))) { // if the fields are not empty
                 Account checkerAccount = accountsList.findByUsername(usernameField.getText());
-                if(checkerAccount != null){ // if an account was found
+                if (checkerAccount != null) { // if an account was found
                     // check if the password matches
-                    if(checkerAccount.getPassword().equals(passwordField.getText())){
+                    if (checkerAccount.getPassword().equals(passwordField.getText())) {
                         // open window for displaying settings
                         errorLabel.setStyle("-fx-text-fill: green");
                         errorLabel.setText("Account logged in.");
                         UserBoxes.displaySettings(checkerAccount);
                         // after this method returns, update account that was possibly changed
-                    } else{ // no password found
+                    } else { // no password found
                         // display an error message
                         errorLabel.setStyle("-fx-text-fill: red");
                         errorLabel.setText("Incorrect password.");
                     }
-                }else{ // no username found
+                } else { // no username found
                     // display an error message
                     errorLabel.setStyle("-fx-text-fill: red");
                     errorLabel.setText("Username not found.");
                 }
-            }else{
+            } else {
                 // display an error message
                 errorLabel.setStyle("-fx-text-fill: red");
                 errorLabel.setText("You must enter text into both fields.");
@@ -109,7 +106,7 @@ public class Main extends Application {
             // Open the window
             Account newAccount = UserBoxes.createAccount();
             // Add newAccount to the list, as long as it was properly created
-            if (newAccount != null){
+            if (newAccount != null) {
                 accountsList.addAccount(newAccount);
             }
         });
