@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 public class Main extends Application {
     // Change these values to change the window's values
-    private static String windowTitle = "Login";
+    private static String windowTitle = "Login Screen";
     private final double WIDTH = 600; // sets the window's width
     private final double HEIGHT = 400; // sets the window's height
     // Create a collection of accounts

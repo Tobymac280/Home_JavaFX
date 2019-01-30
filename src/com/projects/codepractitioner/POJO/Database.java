@@ -48,7 +48,7 @@ public class Database {
                 firstName = resultSet.getString("firstname");
                 lastName = resultSet.getString("lastname");
                 age = resultSet.getInt("age");
-                // place all the new items into a new Acount object
+                // place all the new items into a new Account object
                 Account newAccount = new Account(username, password, firstName, lastName, age);
                 // add the account to the list
                 accounts.add(newAccount);
@@ -59,6 +59,19 @@ public class Database {
 
         return accounts;
     } // end of getAccounts()
+
+    public static boolean addAccount(Account newAccount){
+        try(Statement statement = connection.createStatement()){
+            String username = newAccount.getUsername(), password = newAccount.getPassword(), firstName = newAccount.getFirstName(), lastName = newAccount.getLastName();
+            int age = newAccount.getAge();
+            System.out.println("Username: " + username);
+            // INSERT INTO login_accounts VALUES(username, password, firstName, lastName, age)
+            return statement.execute("INSERT INTO login_accounts VALUES(" + username + ", " + password + ", " + firstName + ", " + lastName + ", " + age + ")");
+        }catch (SQLException exc){
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, "Attempting to add account.", exc);
+        }
+        return false; // Didn't work. An exception was thrown.
+    }
 
     /**
      * Returns QuizItems object -- retrieved from the database

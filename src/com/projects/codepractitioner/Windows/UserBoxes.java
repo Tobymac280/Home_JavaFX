@@ -19,6 +19,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.xml.crypto.Data;
+import java.util.ArrayList;
+
 
 public class UserBoxes {
     private static final String stylesheet = "/com/projects/codepractitioner/Resources/master.css";
@@ -178,6 +181,7 @@ public class UserBoxes {
      * Creates a new account and returns an Account object
      */
     public static Account createAccount() {
+        ArrayList<Account> accounts = new ArrayList<>();
         Account newAccount = null;
         Stage window = new Stage();
 
@@ -207,7 +211,14 @@ public class UserBoxes {
                     if (password_TextField.getText().equals(re_enter_password_TextField.getText())) { // are the passwords the same?
 //                        int age = Integer.parseInt(age_TextField.getText());
 //                        newAccount = new Account(userName_TextField.getText(), password_TextField.getText(), firstName_TextField.getText(), lastName_TextField.getText(), age);
-                        notification_Label.setText("Account can be created!");
+                        int age = Integer.parseInt(age_TextField.getText());
+                        Account newAccount = new Account(userName_TextField.getText(), password_TextField.getText(), firstName_TextField.getText(), lastName_TextField.getText(), age);
+                        boolean processSuccess = Database.addAccount(newAccount);
+                        if(processSuccess){
+                            notification_Label.setText("Account created.");
+                        }else{
+                            notification_Label.setText("Account creation failed.");
+                        }
                     } else {
                         notification_Label.setText("Passwords don't math.");
                     }
