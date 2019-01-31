@@ -58,7 +58,6 @@ public class Main extends Application {
         // Submit button
         Button login_Button = new Button("Login");
         Button register_Button = new Button("Register");
-        Button logout_Button = new Button("Logout");
         // Error label
         Label errorLabel = new Label("");
 
@@ -111,10 +110,6 @@ public class Main extends Application {
             }
         });
 
-        logout_Button.setOnAction(event -> {
-            System.exit(0);
-        });
-
         // Layout -- the place to put all of the objects
         BorderPane layout = new BorderPane();
         // TOP
@@ -132,9 +127,8 @@ public class Main extends Application {
         GridPane.setConstraints(passwordField, 1, 1); // second row, second column
         GridPane.setConstraints(login_Button, 0, 2); // third row, first column
         GridPane.setConstraints(register_Button, 1, 2); // third row, second column
-        GridPane.setConstraints(logout_Button, 2, 2); // third row, second column
         GridPane.setConstraints(errorLabel, 0, 3);
-        centerLayout.getChildren().setAll(usernameField, usernameLabel, passwordField, passwordLabel, login_Button, register_Button, logout_Button, errorLabel); // adds all of the objects to the GridPane
+        centerLayout.getChildren().setAll(usernameField, usernameLabel, passwordField, passwordLabel, login_Button, register_Button, errorLabel); // adds all of the objects to the GridPane
         // Add the layouts to the main BorderPane layout
         layout.setTop(topLayout); // adds the TOP layout to the BorderPane
         layout.setCenter(centerLayout); // adds the CENTER layout to the BorderPane
