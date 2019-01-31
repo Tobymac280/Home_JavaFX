@@ -9,6 +9,10 @@ public class TodoItemList {
         todoItems = new ArrayList<>();
     }
 
+    public ArrayList<TodoItem> getTodoItems(){
+        return clone(); // clone this instance and return it
+    }
+
     /** Add an item. */
     public boolean addTodoItem(TodoItem newItem){
         for(TodoItem currentItem : todoItems){
@@ -34,5 +38,11 @@ public class TodoItemList {
     /** Set the whole thing equal to one list. */
     public void setTodoItems(ArrayList<TodoItem> list){
         todoItems = list;
+    }
+
+    public ArrayList<TodoItem> clone(){
+        ArrayList<TodoItem> items = new ArrayList<>();
+        items.addAll(todoItems);
+        return items;
     }
 }

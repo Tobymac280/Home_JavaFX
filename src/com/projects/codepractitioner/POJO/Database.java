@@ -15,7 +15,7 @@ public class Database {
     private static Connection connection;
 
     public static void createConnection() {
-        String username, password;
+//        String username, password;
 
 //        System.out.println("Please enter the following credentials to login.");
 //        Scanner scanner = new Scanner(System.in);
@@ -24,14 +24,14 @@ public class Database {
 //        System.out.print("Enter password: ");
 //        password = scanner.nextLine();
 
-        try {
+        try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "tobymac208", "Sparta_!3712");
             // Database how now been successfully connected.
             System.err.println("Database was successfully connected.");
-        } catch (ClassNotFoundException e) {
+        }catch (ClassNotFoundException e) {
             System.err.println("Class not found.");
-        } catch (SQLException e) {
+        }catch (SQLException e) {
             System.err.println("SQL exception thrown.");
         }
     }
@@ -105,6 +105,8 @@ public class Database {
         return quizItems;
     }
 
+    /**
+     * Returns a list of TodoItems, obtained from the database. */
     public static TodoItemList getTodoItems(){
         TodoItemList todoItemList = new TodoItemList();
         ArrayList<TodoItem> todoItems = new ArrayList<>();

@@ -10,6 +10,8 @@ import com.projects.codepractitioner.POJO.*;
 import com.projects.codepractitioner.POJO.Account.Account;
 import com.projects.codepractitioner.POJO.Quiz.Quiz;
 import com.projects.codepractitioner.POJO.Quiz.QuizItems;
+import com.projects.codepractitioner.POJO.TodoItem.TodoItem;
+import com.projects.codepractitioner.POJO.TodoItem.TodoItemList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -37,8 +39,9 @@ public class UserBoxes {
 
         /* Components */
         // TOP
-        Button logoutButton = new Button("Logout"); // logs out the user
-        Button quizButton = new Button("Take quiz");
+        Button logout_Button = new Button("Logout"); // logs out the user
+        Button quiz_Button = new Button("Take quiz");
+        Button todoItems_Button = new Button("TODO Items");
         // CENTER
         TextArea displayArea = new TextArea();
         displayArea.setEditable(false); // don't let the user edit the text area
@@ -49,18 +52,20 @@ public class UserBoxes {
                 "Age: " + account.getAge() + "\n");
 
         /* Events */
-        logoutButton.setOnAction(event -> window.close()); // closes this window
-        quizButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                UserBoxes.dailyQuiz();
-            }
+        logout_Button.setOnAction(event -> window.close()); // closes this window
+        // when the button is pushed, open the quizzes window
+        quiz_Button.setOnAction(event -> {
+            UserBoxes.dailyQuiz();
+        });
+        // window to display all of the TodoItems
+        todoItems_Button.setOnAction(event -> {
+            UserBoxes.todoItems();
         });
 
         /* Layouts */
         // TOP layout
         HBox topLayout = new HBox(20);
-        topLayout.getChildren().addAll(logoutButton, quizButton);
+        topLayout.getChildren().addAll(logout_Button, quiz_Button, todoItems_Button);
         topLayout.getStyleClass().add("styled-box");
         topLayout.setAlignment(Pos.CENTER);
         // CENTER layout
@@ -175,6 +180,40 @@ public class UserBoxes {
 
         /* Window options */
         window.setTitle("Daily Quiz");
+        window.setScene(mainScene); // sets the scene
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.showAndWait();
+    }
+
+    public static void todoItems(){
+        Stage window = new Stage();
+        TodoItemList todoItemList = Database.getTodoItems();
+
+        /* Components */
+        TextArea todoList_TextArea = new TextArea();
+        Button checkTodoItems_Button = new Button("Check for todo items.");
+
+        /* Events */
+        checkTodoItems_Button.setOnAction(event -> {
+            todoList_TextArea.appendText("\n\nTodo List Items: \n");
+            for(TodoItem currentItem : todoItemList.getTodoItems()){
+                String isComplete = (currentItem.isCompleted()) ? "[X]" : "[]";
+                todoList_TextArea.appendText("\"" + currentItem.getTitle() + "\" : \"" + currentItem.getDescription() + "\" : " + isComplete + "\n");
+            }
+        });
+
+        /* Layouts */
+        // main layout
+        VBox mainLayout = new VBox();
+        mainLayout.getChildren().add(todoList_TextArea);
+        mainLayout.getChildren().add(checkTodoItems_Button);
+
+        /* Scene */
+        Scene mainScene = new Scene(mainLayout, 600, 400);
+        mainScene.getStylesheets().add(stylesheet);
+
+        /* Window options */
+        window.setTitle("Todo Items");
         window.setScene(mainScene); // sets the scene
         window.initModality(Modality.APPLICATION_MODAL);
         window.showAndWait();
