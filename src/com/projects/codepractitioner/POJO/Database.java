@@ -3,6 +3,8 @@ package com.projects.codepractitioner.POJO;
 import com.projects.codepractitioner.POJO.Account.Account;
 import com.projects.codepractitioner.POJO.Quiz.QuizItem;
 import com.projects.codepractitioner.POJO.Quiz.QuizItems;
+import com.projects.codepractitioner.POJO.TodoItem.TodoItem;
+import com.projects.codepractitioner.POJO.TodoItem.TodoItemList;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -96,10 +98,38 @@ public class Database {
                 quizItemArrayList.add(quizItem);
             }
         } catch (SQLException exc) {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, exc);
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, "Attempting to get quiz items.", exc);
         }
         // add the items to the QuizItems object
         quizItems.setQuizItems(quizItemArrayList);
         return quizItems;
+    }
+
+    public static TodoItemList getTodoItems(){
+        TodoItemList todoItemList = new TodoItemList();
+        ArrayList<TodoItem> todoItems = new ArrayList<>();
+
+        try(Statement statement = connection.createStatement()){
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM todo_items");
+            while(resultSet.next()){
+                String title, description, bit;
+                boolean isCompleted;
+                title = resultSet.getString("title");
+                description = resultSet.getString("description");
+                bit = resultSet.getString("completed");
+                if(bit.equals("1")){
+                    isCompleted = true;
+                }else{
+                    isCompleted = false;
+                }
+                TodoItem todoItem = new TodoItem(title, description, isCompleted);
+                todoItems.add(todoItem);
+            }
+        }catch (SQLException exc){
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, "Attempting to get todo items.", exc);
+        }
+
+        todoItemList.setTodoItems(todoItems);
+        return todoItemList;
     }
 }

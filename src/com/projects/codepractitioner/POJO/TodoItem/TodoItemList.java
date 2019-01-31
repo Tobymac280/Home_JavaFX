@@ -30,4 +30,9 @@ public class TodoItemList {
         }
         return false;
     }
+
+    /** Set the whole thing equal to one list. */
+    public void setTodoItems(ArrayList<TodoItem> list){
+        todoItems = list;
+    }
 }
