@@ -1,8 +1,11 @@
 package com.projects.codepractitioner.POJO;
 
+import com.projects.codepractitioner.POJO.Account.Account;
+import com.projects.codepractitioner.POJO.Quiz.QuizItem;
+import com.projects.codepractitioner.POJO.Quiz.QuizItems;
+
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,19 +15,18 @@ public class Database {
     public static void createConnection() {
         String username, password;
 
-        System.out.println("Please enter the following credentials to login.");
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter username: ");
-        username = scanner.nextLine();
-        System.out.print("Enter password: ");
-        password = scanner.nextLine();
+//        System.out.println("Please enter the following credentials to login.");
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.print("Enter username: ");
+//        username = scanner.nextLine();
+//        System.out.print("Enter password: ");
+//        password = scanner.nextLine();
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", username, password);
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "tobymac208", "Sparta_!3712");
             // Database how now been successfully connected.
             System.err.println("Database was successfully connected.");
-
         } catch (ClassNotFoundException e) {
             System.err.println("Class not found.");
         } catch (SQLException e) {
@@ -60,17 +62,21 @@ public class Database {
         return accounts;
     } // end of getAccounts()
 
-    public static boolean addAccount(Account newAccount){
+    /** Add a n account through the connection. */
+    public static void addAccount(Account newAccount) throws SQLIntegrityConstraintViolationException{
         try(Statement statement = connection.createStatement()){
             String username = newAccount.getUsername(), password = newAccount.getPassword(), firstName = newAccount.getFirstName(), lastName = newAccount.getLastName();
             int age = newAccount.getAge();
             System.out.println("Username: " + username);
             // INSERT INTO login_accounts VALUES(username, password, firstName, lastName, age)
-            return statement.execute("INSERT INTO login_accounts VALUES(" + username + ", " + password + ", " + firstName + ", " + lastName + ", " + age + ")");
-        }catch (SQLException exc){
+            String db_operation = "INSERT INTO login_accounts VALUES('" + username + "','" + password + "','" + firstName + "','" + lastName + "'," + age + ")";
+            statement.execute(db_operation);
+        }catch (SQLIntegrityConstraintViolationException exc){
+            throw exc;
+        }
+        catch (SQLException exc){
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, "Attempting to add account.", exc);
         }
-        return false; // Didn't work. An exception was thrown.
     }
 
     /**

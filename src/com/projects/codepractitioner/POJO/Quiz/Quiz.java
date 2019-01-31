@@ -1,4 +1,4 @@
-package com.projects.codepractitioner.POJO;
+package com.projects.codepractitioner.POJO.Quiz;
 
 public class Quiz {
     private QuizItems quizItems;

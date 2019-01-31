@@ -6,8 +6,8 @@ package com.projects.codepractitioner;
  * Author: Nik
  */
 
-import com.projects.codepractitioner.POJO.Account;
-import com.projects.codepractitioner.POJO.AccountList;
+import com.projects.codepractitioner.POJO.Account.Account;
+import com.projects.codepractitioner.POJO.Account.AccountList;
 import com.projects.codepractitioner.POJO.Database;
 import com.projects.codepractitioner.Windows.PopupBox;
 import com.projects.codepractitioner.Windows.UserBoxes;

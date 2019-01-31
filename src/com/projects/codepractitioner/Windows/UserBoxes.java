@@ -7,6 +7,9 @@ package com.projects.codepractitioner.Windows;
  */
 
 import com.projects.codepractitioner.POJO.*;
+import com.projects.codepractitioner.POJO.Account.Account;
+import com.projects.codepractitioner.POJO.Quiz.Quiz;
+import com.projects.codepractitioner.POJO.Quiz.QuizItems;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -19,7 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.xml.crypto.Data;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 
@@ -213,11 +216,12 @@ public class UserBoxes {
 //                        newAccount = new Account(userName_TextField.getText(), password_TextField.getText(), firstName_TextField.getText(), lastName_TextField.getText(), age);
                         int age = Integer.parseInt(age_TextField.getText());
                         Account newAccount = new Account(userName_TextField.getText(), password_TextField.getText(), firstName_TextField.getText(), lastName_TextField.getText(), age);
-                        boolean processSuccess = Database.addAccount(newAccount);
-                        if(processSuccess){
+                        try{
+                            Database.addAccount(newAccount);
                             notification_Label.setText("Account created.");
-                        }else{
-                            notification_Label.setText("Account creation failed.");
+                            window.close();
+                        }catch (SQLIntegrityConstraintViolationException exc){
+                            notification_Label.setText("Account creation failed. That username already exists.");
                         }
                     } else {
                         notification_Label.setText("Passwords don't math.");

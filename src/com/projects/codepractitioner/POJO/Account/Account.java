@@ -1,4 +1,4 @@
-package com.projects.codepractitioner.POJO;
+package com.projects.codepractitioner.POJO.Account;
 
 public class Account {
     private String username;
